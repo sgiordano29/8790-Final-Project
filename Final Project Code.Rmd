@@ -1,0 +1,55 @@
+---
+title: "Final Project - Shooting Incidents in Philadelphia"
+author: "Sam Giordano"
+output: html_notebook
+---
+
+ 
+
+```{r setup}
+library(tidyverse)
+library(readr)
+
+setwd("/Volumes/KESU")
+shooting <- read_csv("shootings-2.csv")
+head(shooting)
+
+shooting %>% 
+  filter(officer_involved=="Y") -> officer
+dim(officer)
+head(officer)
+
+shooting %>% 
+  filter(officer_involved=="N") -> civilian
+head(civilian)
+civilian$fatal <- as.factor(civilian$fatal)
+
+
+```
+
+
+```{r}
+ggplot(civilian) + 
+  geom_bar(aes(year))
+ggplot(civilian) + 
+  geom_bar(aes(race)) # is b the same as B and w the same as W?
+ggplot(civilian) + 
+  geom_bar(aes(sex)) # is m the same as M
+civilian %>% 
+  filter(sex=="B") # Possible accident? race=M sex=B probably switch?
+ggplot(civilian) +
+  geom_bar(aes(fatal))
+```
+
+```{r}
+ggplot(officer) + 
+  geom_bar(aes(year))
+ggplot(officer) + 
+  geom_bar(aes(sex))
+ggplot(officer) + 
+  geom_bar(aes(offender_injured))
+ggplot(officer) + 
+  geom_bar(aes(offender_deceased))
+```
+
+
